@@ -29,6 +29,9 @@ dependencies {
 
     // mac netty error(no need to remove in other OS)
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.82.Final:osx-aarch_64'
+
+    // firebase sdk setting
+    implementation 'com.google.firebase:firebase-admin:9.0.0'
 }
 
 tasks.named('test') {
