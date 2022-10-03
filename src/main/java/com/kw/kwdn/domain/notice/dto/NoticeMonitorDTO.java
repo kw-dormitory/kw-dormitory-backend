@@ -1,6 +1,5 @@
 package com.kw.kwdn.domain.notice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.util.ArrayList;
