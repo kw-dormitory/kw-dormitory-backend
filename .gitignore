@@ -37,3 +37,4 @@ out/
 .vscode/
 src/main/resources/application.yml
 kw-dormitory-notice-firebase-adminsdk-j5302-247cf7d866.json
+firebase-kw-dormitory.json
