@@ -1,5 +1,5 @@
 # KW dormitory notification
-### Perpose
+### Purpose
 > - 기숙사 공지 API 제작
 > - 통금시간 알림 push 알림 기능 제공
 > - 주기적인 모니터링을 통한 새로운 공지 소식 push 알림 제공
@@ -10,6 +10,7 @@
 > > #### Back-End
 > > - Spring MVC
 > > - Spring Batch
+> > - Spring Security
 > > - Spring Data JPA
 > > - FCM(Firebase Cloud Messaging)
 > > - Spring webflux (for using webClient)
