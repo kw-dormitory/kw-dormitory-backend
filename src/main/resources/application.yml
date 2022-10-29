@@ -1,0 +1,22 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  profiles:
+    active: mysql
+
+server:
+  port: 8888
+
+fcm:
+  secret: firebase-kw-dormitory.json
