@@ -1,6 +1,7 @@
 package com.kw.kwdn.domain.member;
 
 import com.kw.kwdn.domain.BaseTimeEntity;
+import com.kw.kwdn.domain.member.dto.MemberDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +26,22 @@ public class Member extends BaseTimeEntity {
     private String nickname;
 
     @Column(name = "username")
-    private String username;
+    private String name;
 
     @Column(name = "email")
     private String email;
+
+    @Column(name="photo_url")
+    private String photoUrl;
+
+    public MemberDTO toDTO(){
+        return MemberDTO.builder()
+                .id(id)
+                .photoUrl(photoUrl)
+                .email(email)
+                .nickname(nickname)
+                .name(name)
+                .token(token)
+                .build();
+    }
 }

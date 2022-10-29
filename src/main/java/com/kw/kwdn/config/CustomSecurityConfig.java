@@ -2,6 +2,7 @@ package com.kw.kwdn.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kw.kwdn.domain.security.filter.LoginAuthenticationFilter;
+import com.kw.kwdn.domain.security.handler.LoginAuthenticationEntryPoint;
 import com.kw.kwdn.domain.security.handler.LoginAuthenticationSuccessfulHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,37 +25,35 @@ public class CustomSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        if(config.getAuthenticationManager() == null) log.warn("authentication manager is not exist");
+        if (config.getAuthenticationManager() == null) log.warn("authentication manager is not exist");
         return config.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager manager) throws Exception {
         http
-                .authorizeHttpRequests((auth) -> {
-                    try {
-                        auth
-                                .antMatchers("/user", "/admin").authenticated()
-                                .anyRequest()
-                                .permitAll()
-                                .and()
-                                .csrf().disable()
-                                .sessionManagement()
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                    } catch (Exception e) {
-                        throw new IllegalStateException("spring security csrf error");
-                    }
-                })
-                .httpBasic().disable()
+                .authorizeHttpRequests()
+                .antMatchers("/api/v1/login").permitAll()
+                .anyRequest().permitAll()
+
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
                 .formLogin().disable()
                 .csrf().disable()
-                .addFilterBefore(loginAuthenticationFilter(manager), UsernamePasswordAuthenticationFilter.class);
+
+                .addFilterBefore(loginAuthenticationFilter(manager), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new LoginAuthenticationEntryPoint());
+
         return http.build();
     }
 
     @Bean
-    public LoginAuthenticationFilter loginAuthenticationFilter(AuthenticationManager manager) throws Exception {
-        LoginAuthenticationFilter filter = new LoginAuthenticationFilter(objectMapper);
+    public LoginAuthenticationFilter loginAuthenticationFilter(AuthenticationManager manager){
+        LoginAuthenticationFilter filter = new LoginAuthenticationFilter(manager, objectMapper);
         filter.setAuthenticationManager(manager);
         filter.setAuthenticationSuccessHandler(new LoginAuthenticationSuccessfulHandler());
         return filter;
