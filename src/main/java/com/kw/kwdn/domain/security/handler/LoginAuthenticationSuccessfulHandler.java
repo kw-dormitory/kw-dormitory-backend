@@ -1,9 +1,7 @@
 package com.kw.kwdn.domain.security.handler;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import com.kw.kwdn.domain.security.dto.UserInfo;
+import org.apache.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -13,22 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@Slf4j
-@RequiredArgsConstructor
 public class LoginAuthenticationSuccessfulHandler implements AuthenticationSuccessHandler {
     @Override
-    public void onAuthenticationSuccess(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication)
-            throws IOException, ServletException {
-
-        response.setStatus(HttpStatus.OK.value());
-        response.setContentType(MediaType.TEXT_PLAIN.getType());
-
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        response.setStatus(HttpStatus.SC_OK);
+        UserInfo userInfo = (UserInfo) authentication.getPrincipal();
         PrintWriter writer = response.getWriter();
-        writer.print(authentication.getPrincipal());
+        writer.print(userInfo.getUserId());
         writer.close();
-        log.info("success handler finished");
     }
 }

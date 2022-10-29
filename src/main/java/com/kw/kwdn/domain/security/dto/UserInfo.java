@@ -1,10 +1,17 @@
 package com.kw.kwdn.domain.security.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfo {
-    String userId;
+    private String userId;
+    private String email;
+    private String name;
+    private String token;
+    private String nickname;
+    private String photoUrl;
 }

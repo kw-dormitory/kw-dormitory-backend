@@ -6,31 +6,28 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 public class LoginAuthenticationToken extends AbstractAuthenticationToken {
-    private String principal;
+    private Object principal;
+    private Object credentials;
 
-    /**
-     * Creates a token with the supplied array of authorities.
-     *
-     * @param authorities the collection of <tt>GrantedAuthority</tt>s for the principal
-     *                    represented by this authentication object.
-     */
-    // 인증 완료 후
-    public LoginAuthenticationToken(String principal, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.principal = principal;
-        setAuthenticated(true);
-    }
-
-    // 인증 완료 전
-    public LoginAuthenticationToken(String principal){
+    // 인증 하기 전에 사용
+    public LoginAuthenticationToken(Object principal, Object credentials) {
         super(null);
         this.principal = principal;
-        setAuthenticated(false);
+        this.credentials = credentials;
+        super.setAuthenticated(false);
+    }
+
+    // 인증완료 후 사용
+    public LoginAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
+        this.principal = principal;
+        this.credentials = credentials;
+        super.setAuthenticated(true);
     }
 
     @Override
     public Object getCredentials() {
-        return null;
+        return this.credentials;
     }
 
     @Override
