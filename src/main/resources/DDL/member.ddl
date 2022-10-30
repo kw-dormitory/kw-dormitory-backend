@@ -5,7 +5,7 @@ create table member
     token       varchar(255) null,
     email       varchar(255) null,
     nickname    varchar(255) null,
-    photo_url    varchar(255) null,
-    created_at  datetime(6)  null,
-    modified_at datetime(6)  null
+    photo_url   varchar(255) null,
+    created_at  datetime(6) null,
+    modified_at datetime(6) null
 );
