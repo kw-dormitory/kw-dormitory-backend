@@ -10,11 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDTO {
-    private String id;
-    private String name;
+public class MemberPartyDTO {
     private String nickname;
-    private String token;
-    private String email;
     private String photoUrl;
 }

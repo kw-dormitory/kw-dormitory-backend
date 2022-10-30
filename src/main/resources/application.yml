@@ -4,7 +4,7 @@ spring:
       initialize-schema: always
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 
     show-sql: true
 
