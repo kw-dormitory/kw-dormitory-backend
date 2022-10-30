@@ -22,6 +22,15 @@ dependencies {
     // spring data jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // Querydsl
+    implementation 'com.querydsl:querydsl-jpa'
+    // Querydsl JPAAnnotationProcessor 사용 지정
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    // java.lang.NoClassDefFoundError(javax.annotation.Entity) 발생 대응
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    // java.lang.NoClassDefFoundError(javax.annotation.Generated) 발생 대응
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
     // spring mvc + webflux for using webClient
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -45,6 +54,11 @@ dependencies {
 
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+}
+
+// clean task 실행시 QClass 삭제
+clean {
+    delete file('src/main/generated') // 인텔리제이 Annotation processor 생성물 생성 위치
 }
 
 tasks.named('test') {
