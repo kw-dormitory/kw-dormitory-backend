@@ -27,7 +27,7 @@ public class Party extends BaseTimeEntity {
     @Column(name = "open_tok_url", nullable = false)
     private String openTokUrl;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member creator;
 }

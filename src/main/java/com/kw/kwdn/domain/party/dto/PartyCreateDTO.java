@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PartyCreateDTO {
-    private String userId;
     private String title;
     private String openTokUrl;
     private String content;

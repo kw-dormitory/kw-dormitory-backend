@@ -25,9 +25,9 @@ public class PartyService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long create(PartyCreateDTO dto) {
+    public Long create(PartyCreateDTO dto, String userId) {
         Member member = memberRepository
-                .findById(dto.getUserId())
+                .findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자가 없습니다."));
 
         Party party = Party.builder()
