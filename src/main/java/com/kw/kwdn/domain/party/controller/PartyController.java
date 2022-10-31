@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Printable;
+import java.security.Principal;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/party")
@@ -19,8 +22,9 @@ public class PartyController {
     private final PartyService partyService;
 
     @PostMapping("/create")
-    public Long create(@RequestBody PartyCreateDTO dto) {
-        return partyService.create(dto);
+    public Long create(@RequestBody PartyCreateDTO dto, Principal principal) {
+        String userId = principal.getName();
+        return partyService.create(dto, userId);
     }
 
     @GetMapping("/{partyId}")
