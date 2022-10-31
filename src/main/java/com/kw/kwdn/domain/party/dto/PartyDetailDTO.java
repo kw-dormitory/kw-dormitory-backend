@@ -1,5 +1,6 @@
 package com.kw.kwdn.domain.party.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kw.kwdn.domain.member.dto.MemberPartyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +18,6 @@ public class PartyDetailDTO {
     private String title;
     private String openTokUrl;
     private String content;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 }

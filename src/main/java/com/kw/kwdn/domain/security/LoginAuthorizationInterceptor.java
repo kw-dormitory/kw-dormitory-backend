@@ -27,15 +27,11 @@ public class LoginAuthorizationInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler)
             throws Exception {
-        String header = "";
-        try{
-            header = request.getHeader("Authorization");
-        }catch(NullPointerException e){
-            throw new IllegalArgumentException("Authorization token 값이 없습니다.");
-        }
+        String header = request.getHeader("Authorization");
+        if (header == null) throw new IllegalArgumentException("authorization token 값이 없습니다.");
         String token = header.substring(BEARER.length());
         boolean isExist = memberRepository.existsById(token);
-        if(!isExist) {
+        if (!isExist) {
             log.warn("존재하지 않는 사용자 토큰값(" + token + ")으로 접속하려고 합니다.");
             response.setStatus(HttpStatus.SC_FORBIDDEN);
         }
