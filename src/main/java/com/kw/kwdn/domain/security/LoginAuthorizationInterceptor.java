@@ -4,6 +4,7 @@ import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.security.token.LoginAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -26,12 +27,18 @@ public class LoginAuthorizationInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler)
             throws Exception {
-        log.info("my interceptor start");
-        String header = request.getHeader("Authorization");
+        String header = "";
+        try{
+            header = request.getHeader("Authorization");
+        }catch(NullPointerException e){
+            throw new IllegalArgumentException("Authorization token 값이 없습니다.");
+        }
         String token = header.substring(BEARER.length());
         boolean isExist = memberRepository.existsById(token);
-        log.info(token + " : " + isExist);
-
+        if(!isExist) {
+            log.warn("존재하지 않는 사용자 토큰값(" + token + ")으로 접속하려고 합니다.");
+            response.setStatus(HttpStatus.SC_FORBIDDEN);
+        }
         Authentication authentication = new LoginAuthenticationToken(token, token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return isExist;
