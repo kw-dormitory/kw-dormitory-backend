@@ -14,10 +14,10 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -27,7 +27,8 @@ public class NoticeService {
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
 
-    public NoticeMonitorDTO getNotice(Long page, Long size) {
+    public List<NoticeListDTO> getNotice(Long page, Long size) {
+        // raw data 가져오기
         ResponseEntity<String> res = webClient.post()
                 .uri("/bbs/getBbsList.kmc")
                 .accept(MediaType.APPLICATION_FORM_URLENCODED)
@@ -41,26 +42,37 @@ public class NoticeService {
                 .onStatus(status -> status.value() != 200, r -> Mono.empty())
                 .toEntity(String.class)
                 .block();
-        NoticeMonitorDTO dto = null;
+        NoticeListRootRawDTO dto = null;
         String body = Objects.requireNonNull(res).getBody();
+
         try {
-            dto = objectMapper.readValue(body, NoticeMonitorDTO.class);
+            dto = objectMapper.readValue(body, NoticeListRootRawDTO.class);
+            log.info(dto.toString());
         } catch (JsonProcessingException e) {
             log.warn(ErrorComment.JSON_PARSE_EXCEPTION.getComment());
-            throw new IllegalStateException("데이터를 가지고 오는 것에 실패하였습니다.");
+            throw new IllegalStateException("NoticeService getNotice : 데이터를 가지고 오는 것에 실패하였습니다.");
         }
-        return dto;
+        return convertListRawDTOToListDTO(dto);
     }
 
-    public List<NoticeListItemDTO> convertNoticeList(Long page, Long size) {
-        NoticeMonitorDTO notice = this.getNotice(page, size);
-        log.info(notice.toString());
-        return Optional.of(notice)
-                .map(NoticeMonitorDTO::getRoot)
-                .map(c -> c.get(0))
-                .map(NoticeMonitorListDTO::getList)
-                .orElse(new ArrayList<>());
+    private List<NoticeListDTO> convertListRawDTOToListDTO(NoticeListRootRawDTO dto) {
+        List<NoticeListRawDTO> noticeListRawDTOS = Optional.of(dto)
+                .map(NoticeListRootRawDTO::getRoot)
+                .map(rootDto -> rootDto.get(0))
+                .map(NoticeListMiddleRawDTO::getList)
+                .orElseThrow(()
+                        -> new IllegalStateException("NoticeService convertListRawDTOToListDTO : 데이터를 가지고 오는 것에 실패하였습니다."));
+
+        return noticeListRawDTOS.stream()
+                .map(raw -> NoticeListDTO.builder()
+                        .noticeId(raw.getSeq())
+                        .title(raw.getSubject())
+                        .writer(raw.getRegname())
+                        .createdAt(raw.getRegdate())
+                        .build())
+                .collect(Collectors.toList());
     }
+
 
     public NoticeDetailsDTO getNoticeDetails(String noticeId) {
         ResponseEntity<String> res = webClient.post()
@@ -84,18 +96,22 @@ public class NoticeService {
             rootDto = objectMapper.readValue(body, NoticeRawDetailRootDTO.class);
         } catch (JsonProcessingException e) {
             log.warn(ErrorComment.JSON_PARSE_EXCEPTION.getComment());
-            throw new IllegalStateException("데이터를 가지고 오는 것에 실패하였습니다.");
+            throw new IllegalStateException("NoticeService getNoticeDetails : 데이터를 가지고 오는 것에 실패하였습니다.");
         }
 
-        if (rootDto.getRoot().isEmpty()) throw new IllegalStateException("데이터를 가지고 오는 것에 실패하였습니다.");
+        if (rootDto.getRoot().isEmpty())
+            throw new IllegalStateException("NoticeService getNoticeDetails : 데이터를 가지고 오는 것에 실패하였습니다.");
         NoticeRawDetailsDTO dto = rootDto.getRoot().get(0);
-        NoticeDetailsDTO result = NoticeDetailsDTO.builder()
+
+        return NoticeDetailsDTO.builder()
                 .noticeId(dto.getSeq())
                 .content(dto.getContents())
                 .title(dto.getSubject())
                 .writer(dto.getRegname())
-                .createdAt(dto.getRegdate())
+                .createdAt(
+                        dto.getRegdate()
+                                .replace("오전 ", "")
+                                .replace("오후 ", ""))
                 .build();
-        return result;
     }
 }
