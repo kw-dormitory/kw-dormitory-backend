@@ -2,6 +2,7 @@ package com.kw.kwdn.domain.security.provider;
 
 import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
 import com.kw.kwdn.domain.member.service.MemberService;
+import com.kw.kwdn.domain.penalty.service.PenaltyService;
 import com.kw.kwdn.domain.security.dto.MemberDetails;
 import com.kw.kwdn.domain.security.dto.UserInfo;
 import com.kw.kwdn.domain.security.token.LoginAuthenticationToken;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 public class LoginAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsService userDetailsService;
     private final MemberService memberService;
+    private final PenaltyService penaltyService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -43,6 +45,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
                     .build();
 
             memberService.join(dto);
+            penaltyService.create(userInfo.getUserId());
             memberDetails = (MemberDetails) userDetailsService.loadUserByUsername(userInfo.getUserId());
         }
         LoginAuthenticationToken token = new LoginAuthenticationToken(memberDetails.getUserInfo(), null, memberDetails.getAuthorities());
