@@ -13,19 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FirebaseService {
 
-    public void sendNoticeAlarm(String title, String body) {
-        Message message = makeMessage(title, body, TopicType.NOTICE.value());
-        try {
-            String response = FirebaseMessaging.getInstance().send(message);
-            log.info("firebase send notification successfully " + response);
-        } catch (FirebaseMessagingException e) {
-            log.warn("firebase send notification error");
-            e.printStackTrace();
-        }
-    }
-
-    public void sendCurfewAlarm(String title, String body) {
-        Message message = makeMessage(title, body, TopicType.CURFEW.value());
+    public void sendAlarm(String title, String body, TopicType type) {
+        Message message = makeMessage(title, body, type.value());
         try {
             String response = FirebaseMessaging.getInstance().send(message);
             log.info("firebase send notification successfully " + response);

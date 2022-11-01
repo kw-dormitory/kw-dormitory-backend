@@ -2,14 +2,17 @@ package com.kw.kwdn.domain.notice.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kw.kwdn.domain.notice.Notice;
 import com.kw.kwdn.domain.notice.dto.*;
 import com.kw.kwdn.domain.notice.dto.NoticeRawDetailRootDTO;
+import com.kw.kwdn.domain.notice.repository.NoticeRepository;
 import com.kw.kwdn.global.error.ErrorComment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
+    private final NoticeRepository noticeRepository;
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
 
@@ -110,8 +114,19 @@ public class NoticeService {
                 .writer(dto.getRegname())
                 .createdAt(
                         dto.getRegdate()
-                                .replace("오전 ", "")
-                                .replace("오후 ", ""))
+                                .replace("오전 ", "A.M. ")
+                                .replace("오후 ", "P.M. "))
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existById(Long noticeId) {
+        return noticeRepository.existsById(noticeId);
+    }
+
+    @Transactional
+    public Long create(NoticeCreateDTO dto) {
+        Notice notice = dto.toEntity();
+        return noticeRepository.save(notice).getNoticeId();
     }
 }

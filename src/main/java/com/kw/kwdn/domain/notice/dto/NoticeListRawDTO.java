@@ -26,7 +26,7 @@ public class NoticeListRawDTO {
     private String regid;
     private String regname;
     private String reply_cnt;
-    private Integer seq;
+    private Long seq;
     private String subject;
     private String topflag;
     private String viewpass;
