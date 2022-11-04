@@ -5,24 +5,22 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class LoginAuthenticationToken extends AbstractAuthenticationToken {
+public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private Object principal;
     private Object credentials;
 
-    // 인증 하기 전에 사용
-    public LoginAuthenticationToken(Object principal, Object credentials) {
-        super(null);
+    public JwtAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
+        super.setAuthenticated(true);
         this.principal = principal;
         this.credentials = credentials;
-        super.setAuthenticated(false);
     }
 
-    // 인증완료 후 사용
-    public LoginAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    public JwtAuthenticationToken(Object principal, Object credentials) {
+        super(null);
+        super.setAuthenticated(false);
         this.principal = principal;
         this.credentials = credentials;
-        super.setAuthenticated(true);
     }
 
     @Override

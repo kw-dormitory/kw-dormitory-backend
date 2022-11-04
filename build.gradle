@@ -54,6 +54,10 @@ dependencies {
 
     // spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // jwt
+    implementation "io.jsonwebtoken:jjwt:0.9.1"
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 }
 
 // clean task 실행시 QClass 삭제
