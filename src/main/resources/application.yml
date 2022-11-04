@@ -13,7 +13,7 @@ spring:
         format_sql: true
 
   profiles:
-    active: mysql
+    active: mysql, jwt
 
 server:
   port: 8888

@@ -1,10 +1,10 @@
 package com.kw.kwdn.domain.security.service;
 
 
-import com.kw.kwdn.global.error.exception.JwtAccessDeniedException;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -16,7 +16,8 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class JwtSecurityService {
-    private String JWT_SECRET = "hello world";
+    @Value("${jwt.secret}")
+    private String JWT_SECRET;
 
     public String createToken(String subject, long expireTime) {
         if (expireTime <= 0) throw new IllegalArgumentException("초기화하는 시간이 0보다 작으면 안됩니다.");
