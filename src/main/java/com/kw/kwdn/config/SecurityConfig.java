@@ -7,12 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -24,15 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        if (config.getAuthenticationManager() == null) {
-            log.warn("authentication manager is not exist");
-            throw new IllegalStateException("authenticationManager를 생성할 수 없습니다.");
-        }
-        return config.getAuthenticationManager();
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,12 +44,5 @@ public class SecurityConfig {
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web
-                .ignoring()
-                .antMatchers("/ignore1", "/ignore2");
     }
 }

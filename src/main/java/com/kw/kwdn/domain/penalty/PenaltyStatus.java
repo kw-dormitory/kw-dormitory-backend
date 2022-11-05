@@ -3,7 +3,6 @@ package com.kw.kwdn.domain.penalty;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.penalty.dto.PenaltyItemDTO;
 import com.kw.kwdn.domain.penalty.dto.PenaltyStatusDTO;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "penalty_status")
 public class PenaltyStatus {
     @Id
@@ -34,6 +31,16 @@ public class PenaltyStatus {
     @JoinColumn(name = "member_id")
     private Member member;
 
+
+    //*** constructor ***//
+    @Builder
+    public PenaltyStatus(Long id, Integer totalPenalty, Member member) {
+        this.id = id;
+        this.totalPenalty = totalPenalty;
+        this.member = member;
+    }
+
+    //*** domain logic ***//
     public void addPenalty(Integer newPenalty) {
         this.totalPenalty += newPenalty;
     }

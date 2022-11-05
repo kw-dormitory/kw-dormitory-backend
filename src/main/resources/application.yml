@@ -1,19 +1,12 @@
 spring:
+  profiles:
+    active: mysql, jwt
   batch:
     jdbc:
       initialize-schema: always
   jpa:
     hibernate:
       ddl-auto: validate
-
-    show-sql: true
-
-    properties:
-      hibernate:
-        format_sql: true
-
-  profiles:
-    active: mysql, jwt
 
 server:
   port: 8888
