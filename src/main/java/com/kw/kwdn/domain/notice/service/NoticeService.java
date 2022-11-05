@@ -32,26 +32,34 @@ public class NoticeService {
     private final ObjectMapper objectMapper;
 
     public List<NoticeListDTO> getNotice(Long page, Long size) {
+        ResponseEntity<String> res = null;
         // raw data 가져오기
-        ResponseEntity<String> res = webClient.post()
-                .uri("/bbs/getBbsList.kmc")
-                .accept(MediaType.APPLICATION_FORM_URLENCODED)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters
-                        .fromMultipartData("cPage", page)
-                        .with("rows", size)
-                        .with("bbs_locgbn", "KW")
-                        .with("bbs_id", "notice"))
-                .retrieve()
-                .onStatus(status -> status.value() != 200, r -> Mono.empty())
-                .toEntity(String.class)
-                .block();
+        try {
+            res = webClient.post()
+                    .uri("/bbs/getBbsList.kmc")
+                    .accept(MediaType.APPLICATION_FORM_URLENCODED)
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .body(BodyInserters
+                            .fromMultipartData("cPage", page)
+                            .with("rows", size)
+                            .with("bbs_locgbn", "KW")
+                            .with("bbs_id", "notice"))
+                    .retrieve()
+                    .onStatus(status -> status.value() != 200, r -> Mono.empty())
+                    .toEntity(String.class)
+                    .doOnError((error) -> {
+                        log.warn("notice를 가지고 오는 작업에서 에러가 발생하였습니다.");
+                    })
+                    .block();
+        } catch (Exception e) {
+            return null;
+        }
+
         NoticeListRootRawDTO dto = null;
         String body = Objects.requireNonNull(res).getBody();
 
         try {
             dto = objectMapper.readValue(body, NoticeListRootRawDTO.class);
-            log.info(dto.toString());
         } catch (JsonProcessingException e) {
             log.warn(ErrorComment.JSON_PARSE_EXCEPTION.getComment());
             throw new IllegalStateException("NoticeService getNotice : 데이터를 가지고 오는 것에 실패하였습니다.");
@@ -77,7 +85,6 @@ public class NoticeService {
                 .collect(Collectors.toList());
     }
 
-
     public NoticeDetailsDTO getNoticeDetails(String noticeId) {
         ResponseEntity<String> res = webClient.post()
                 .uri("/bbs/getBbsView.kmc")
@@ -91,10 +98,7 @@ public class NoticeService {
                 .onStatus(status -> status.value() != 200, r -> Mono.empty())
                 .toEntity(String.class)
                 .block();
-
         String body = Objects.requireNonNull(res).getBody();
-
-        log.info(body);
         NoticeRawDetailRootDTO rootDto = null;
         try {
             rootDto = objectMapper.readValue(body, NoticeRawDetailRootDTO.class);

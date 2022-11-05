@@ -15,8 +15,8 @@ public class FirebaseConfig {
     @Value("${fcm.secret}")
     private String secretFilePath;
 
-    @Bean
-    public FirebaseApp firebaseApp() throws IOException {
+    @Bean(name = "FireBaseInitialize")
+    public FirebaseApp initialize() throws IOException {
         FileInputStream serviceAccount = new FileInputStream(secretFilePath);
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

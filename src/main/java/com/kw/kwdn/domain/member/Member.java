@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -31,10 +32,10 @@ public class Member extends BaseTimeEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name="photo_url")
+    @Column(name = "photo_url")
     private String photoUrl;
 
-    public MemberDTO toDTO(){
+    public MemberDTO toDTO() {
         return MemberDTO.builder()
                 .id(id)
                 .photoUrl(photoUrl)
@@ -43,5 +44,9 @@ public class Member extends BaseTimeEntity {
                 .name(name)
                 .token(token)
                 .build();
+    }
+
+    public void updateToken(String token) {
+        this.token = token;
     }
 }

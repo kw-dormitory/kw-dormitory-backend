@@ -16,5 +16,5 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NoticeListMiddleRawDTO {
-    private List<NoticeListRawDTO> list = new ArrayList<>();
+    private List<NoticeListRawDTO> list;
 }

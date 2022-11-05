@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -40,7 +38,6 @@ public class PenaltyService {
         PenaltyStatus status = PenaltyStatus.builder()
                 .totalPenalty(0)
                 .member(member)
-                .penaltyItemList(new ArrayList<>())
                 .build();
         return penaltyStatusRepository.save(status).getId();
     }

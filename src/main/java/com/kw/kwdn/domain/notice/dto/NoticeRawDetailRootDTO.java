@@ -15,5 +15,5 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIgnoreProperties
 public class NoticeRawDetailRootDTO {
-    private List<NoticeRawDetailsDTO> root = new ArrayList<>();
+    private List<NoticeRawDetailsDTO> root;
 }
