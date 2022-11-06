@@ -6,6 +6,6 @@ create table member
     email       varchar(255) null,
     nickname    varchar(255) null,
     photo_url   varchar(255) null,
-    created_at  datetime(6) null,
-    modified_at datetime(6) null
+    created_at  timestamp(6) null,
+    modified_at timestamp(6) null
 );

@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth**").permitAll()
                 .antMatchers("/api**").authenticated()
+                .anyRequest().permitAll()
 
                 .and()
                 .exceptionHandling()

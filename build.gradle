@@ -1,3 +1,11 @@
+buildscript {
+    ext {
+        springBootStarterVersion='2.7.4'
+        firebaseVersion='9.1.0'
+        swaggerVersion='3.0.0'
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
@@ -19,8 +27,16 @@ repositories {
 }
 
 dependencies {
+    // spring mvc + webflux for using webClient
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootStarterVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootStarterVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootStarterVersion}"
+
+    // spring security
+    implementation "org.springframework.boot:spring-boot-starter-security:${springBootStarterVersion}"
+
     // spring data jpa
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootStarterVersion}"
 
     // Querydsl
     implementation 'com.querydsl:querydsl-jpa'
@@ -31,35 +47,30 @@ dependencies {
     // java.lang.NoClassDefFoundError(javax.annotation.Generated) 발생 대응
     annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
-    // spring mvc + webflux for using webClient
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
     // validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootStarterVersion}"
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // mysql, h2
     runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'com.h2database:h2:2.1.214'
 
     // mac netty error(no need to remove in other OS)
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.84.Final:osx-aarch_64'
 
     // firebase sdk setting
-    implementation 'com.google.firebase:firebase-admin:9.1.0'
-
-    // spring security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation "com.google.firebase:firebase-admin:${firebaseVersion}"
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 
-    // h2
-    implementation 'com.h2database:h2:2.1.214'
+    // swagger
+    implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
+    implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 }
 
 // clean task 실행시 QClass 삭제

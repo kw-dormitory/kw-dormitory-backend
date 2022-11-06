@@ -1,34 +1,3 @@
 spring:
-  profiles:
-    active: mysql, jwt
-  jpa:
-    hibernate:
-      ddl-auto: validate
-
-server:
-  port: 8888
-
-fcm:
-  secret: firebase-kw-dormitory.json
-
----
-spring:
   config:
-    name: test
-    import: application-jwt.yml
-
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
-
-  datasource:
-    username: sa
-    password:
-    url: jdbc:h2:mem:test
-    driver-class-name: org.h2.Driver
-server:
-  port: 8888
-
-fcm:
-  secret: firebase-kw-dormitory.json
+    import: classpath:application-dev.yml
