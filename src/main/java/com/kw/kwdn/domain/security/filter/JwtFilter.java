@@ -58,6 +58,8 @@ public class JwtFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request)
             throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/api/v1/auth");
+        List<String> canList = List.of("/swagger", "/api/v1/auth", "/v3/api-docs");
+        for (String word : canList) if (path.startsWith(word)) return true;
+        return !path.startsWith("/api/");
     }
 }
