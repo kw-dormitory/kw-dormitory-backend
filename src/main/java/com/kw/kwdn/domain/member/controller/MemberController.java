@@ -18,11 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/join")
-    public String join(@RequestBody MemberCreateDTO dto) {
-        return memberService.join(dto);
-    }
-
     @PatchMapping("/profile/image/upload")
     public String uploadProfileImage(
             @RequestParam(name = "image") List<MultipartFile> files,
