@@ -3,6 +3,7 @@ package com.kw.kwdn.domain.member.service;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
 import com.kw.kwdn.domain.member.dto.MemberDTO;
+import com.kw.kwdn.domain.member.dto.MemberDetailDTO;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,13 @@ public class MemberService {
 
     public Optional<MemberDTO> findOneById(String userId) {
         return memberRepository.findOneById(userId).map(Member::toDTO);
+    }
+
+    public MemberDetailDTO findDetailById(String memberId) {
+        return memberRepository
+                .findOneById(memberId)
+                .map(Member::toDetailDTO)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자 정보가 없습니다."));
     }
 
     @Transactional
