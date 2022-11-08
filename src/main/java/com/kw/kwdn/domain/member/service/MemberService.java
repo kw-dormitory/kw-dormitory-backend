@@ -1,5 +1,6 @@
 package com.kw.kwdn.domain.member.service;
 
+import com.kw.kwdn.domain.image.service.ImageService;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
 import com.kw.kwdn.domain.member.dto.MemberDTO;
@@ -11,10 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Slf4j
@@ -22,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final ImageService imageService;
 
     @Transactional
     public String join(MemberCreateDTO dto) {
@@ -50,16 +48,9 @@ public class MemberService {
         Member member = memberRepository.findOneById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자 정보가 없습니다."));
 
-        String path = "src/main/resources/image/";
         String fileStoredName = "profile/" + member.getId() + "_" + file.getOriginalFilename();
-        String photoUrl = path + fileStoredName;
-        Path imagePath = Paths.get(photoUrl);
 
-        try {
-            Files.write(imagePath, file.getBytes());
-        } catch (IOException e) {
-            throw new IllegalStateException("프로필 저장에 실패하였습니다.");
-        }
+        imageService.save(file, fileStoredName);
         member.updateProfileUrl(fileStoredName);
         return member.getPhotoUrl();
     }

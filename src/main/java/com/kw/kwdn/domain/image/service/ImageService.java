@@ -4,9 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
 @Service
@@ -25,5 +30,15 @@ public class ImageService {
         } catch (MalformedURLException e) {
             throw new IllegalStateException("이미지를 처리하는 과정에서 문제가 발생하였습니다.");
         }
+    }
+
+    public String save(MultipartFile file, String fileName) {
+        Path path = Paths.get(IMAGE_RESOURCE_PATH + fileName);
+        try {
+            Files.write(path, file.getBytes());
+        } catch (IOException e) {
+            throw new IllegalStateException("이미지를 저장하는 도중에 문제가 발생하였습니다.");
+        }
+        return fileName;
     }
 }
