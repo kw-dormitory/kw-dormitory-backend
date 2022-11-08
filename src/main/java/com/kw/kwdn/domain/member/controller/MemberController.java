@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     @GetMapping("")
-    public MemberDetailDTO detail(Principal principal){
+    public MemberDetailDTO detail(Principal principal) {
         String memberId = principal.getName();
         return memberService.findDetailById(memberId);
     }

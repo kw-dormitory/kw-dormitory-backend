@@ -51,7 +51,7 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자 정보가 없습니다."));
 
         String path = "src/main/resources/image/";
-        String fileStoredName = member.getId() + "_" + file.getOriginalFilename();
+        String fileStoredName = "profile/" + member.getId() + "_" + file.getOriginalFilename();
         String photoUrl = path + fileStoredName;
         Path imagePath = Paths.get(photoUrl);
 
@@ -60,7 +60,7 @@ public class MemberService {
         } catch (IOException e) {
             throw new IllegalStateException("프로필 저장에 실패하였습니다.");
         }
-        member.updateProfileUrl(path + fileStoredName);
+        member.updateProfileUrl(fileStoredName);
         return member.getPhotoUrl();
     }
 }
