@@ -2,6 +2,7 @@ package com.kw.kwdn.domain.member;
 
 import com.kw.kwdn.domain.BaseTimeEntity;
 import com.kw.kwdn.domain.member.dto.MemberDTO;
+import com.kw.kwdn.domain.member.dto.MemberDetailDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,17 @@ public class Member extends BaseTimeEntity {
 
     public MemberDTO toDTO() {
         return MemberDTO.builder()
+                .id(id)
+                .photoUrl(photoUrl)
+                .email(email)
+                .nickname(nickname)
+                .name(name)
+                .token(token)
+                .build();
+    }
+
+    public MemberDetailDTO toDetailDTO() {
+        return MemberDetailDTO.builder()
                 .id(id)
                 .photoUrl(photoUrl)
                 .email(email)

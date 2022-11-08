@@ -1,6 +1,7 @@
 package com.kw.kwdn.domain.member.controller;
 
 import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
+import com.kw.kwdn.domain.member.dto.MemberDetailDTO;
 import com.kw.kwdn.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +19,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/join")
-    public String join(@RequestBody MemberCreateDTO dto) {
-        return memberService.join(dto);
-    }
-
     @PatchMapping("/profile/image/upload")
     public String uploadProfileImage(
             @RequestParam(name = "image") List<MultipartFile> files,
@@ -31,5 +27,11 @@ public class MemberController {
         if (files == null || files.isEmpty())
             throw new IllegalArgumentException("적어도 하나 이상의 파일을 입력으로 넣어야합니다.");
         return memberService.uploadProfileImage(principal.getName(), files.get(0));
+    }
+
+    @GetMapping("")
+    public MemberDetailDTO detail(Principal principal) {
+        String memberId = principal.getName();
+        return memberService.findDetailById(memberId);
     }
 }
