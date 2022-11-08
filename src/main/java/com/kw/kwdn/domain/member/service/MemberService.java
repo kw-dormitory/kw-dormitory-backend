@@ -8,7 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Slf4j
@@ -26,5 +31,28 @@ public class MemberService {
 
     public Optional<MemberDTO> findOneById(String userId) {
         return memberRepository.findOneById(userId).map(Member::toDTO);
+    }
+
+    @Transactional
+    public String uploadProfileImage(String userId, MultipartFile file) {
+        String type = file.getContentType();
+        if (type == null || !type.startsWith("image"))
+            throw new IllegalArgumentException("올바른 형식의 파일이 아닙니다.");
+
+        Member member = memberRepository.findOneById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 사용자 정보가 없습니다."));
+
+        String path = "src/main/resources/image/";
+        String fileStoredName = member.getId() + "_" + file.getOriginalFilename();
+        String photoUrl = path + fileStoredName;
+        Path imagePath = Paths.get(photoUrl);
+
+        try {
+            Files.write(imagePath, file.getBytes());
+        } catch (IOException e) {
+            throw new IllegalStateException("프로필 저장에 실패하였습니다.");
+        }
+        member.updateProfileUrl(path + fileStoredName);
+        return member.getPhotoUrl();
     }
 }
