@@ -2,7 +2,10 @@ package com.kw.kwdn.domain.penalty;
 
 
 import com.kw.kwdn.domain.penalty.dto.PenaltyItemDTO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

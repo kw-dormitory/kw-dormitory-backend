@@ -2,7 +2,10 @@ package com.kw.kwdn.domain.party;
 
 import com.kw.kwdn.domain.BaseTimeEntity;
 import com.kw.kwdn.domain.member.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

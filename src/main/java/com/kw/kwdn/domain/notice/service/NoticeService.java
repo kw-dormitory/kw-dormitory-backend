@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kw.kwdn.domain.notice.Notice;
 import com.kw.kwdn.domain.notice.dto.*;
-import com.kw.kwdn.domain.notice.dto.NoticeRawDetailRootDTO;
 import com.kw.kwdn.domain.notice.repository.NoticeRepository;
 import com.kw.kwdn.global.error.ErrorComment;
 import lombok.RequiredArgsConstructor;

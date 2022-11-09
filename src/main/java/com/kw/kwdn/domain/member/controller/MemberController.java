@@ -1,6 +1,5 @@
 package com.kw.kwdn.domain.member.controller;
 
-import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
 import com.kw.kwdn.domain.member.dto.MemberDetailDTO;
 import com.kw.kwdn.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
