@@ -40,3 +40,5 @@ firebase-kw-dormitory.json
 src/main/resources/application-dev.yml
 src/main/resources/application-test.yml
 src/main/resources/image/**
+
+logs/**
