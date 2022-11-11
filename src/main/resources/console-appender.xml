@@ -1,0 +1,10 @@
+<included>
+    <!-- 콘솔 Appender 지정, 여기서 name은 appender-ref에서 사용됨 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 어떻게 출력할지 지정 -->
+        <encoder>
+            <!-- 로그 출력 패턴 -->
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+</included>
