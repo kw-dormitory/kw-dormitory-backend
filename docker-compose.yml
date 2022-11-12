@@ -3,5 +3,7 @@ services:
   kw-dormitory:
     container_name: backend-app
     build:
+      context: .
       dockerfile: Dockerfile
+    image: "kw-dormitory-backend-image"
     restart: on-failure
