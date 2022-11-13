@@ -35,11 +35,7 @@ public class PenaltyService {
                 .findOneById(userId)
                 .orElseThrow(() -> new IllegalStateException("해당하는 사용자가 없습니다."));
 
-        PenaltyStatus status = PenaltyStatus.builder()
-                .totalPenalty(0)
-                .member(member)
-                .build();
-
+        PenaltyStatus status = PenaltyStatus.create(member);
         return penaltyStatusRepository.save(status).getId();
     }
 

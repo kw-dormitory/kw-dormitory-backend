@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,10 +16,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PenaltyItemCreateDTO {
+    @NotNull
     private Integer penalty;
+
+    @NotNull
     private String content;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+    @NotNull
     private LocalDateTime createdAt;
 
     public PenaltyItem toEntity() {

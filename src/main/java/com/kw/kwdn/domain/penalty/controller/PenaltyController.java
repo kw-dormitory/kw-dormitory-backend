@@ -6,6 +6,7 @@ import com.kw.kwdn.domain.penalty.service.PenaltyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -25,15 +26,23 @@ public class PenaltyController {
     }
 
     @PostMapping("")
-    public Long createPenaltyItem(Principal principal, @RequestBody PenaltyItemCreateDTO dto) {
+    public Long createPenaltyItem(
+            Principal principal,
+            @Validated
+            @RequestBody
+            PenaltyItemCreateDTO dto
+    ) {
         String userId = principal.getName();
         return penaltyService.createPenaltyItem(userId, dto);
     }
 
     @DeleteMapping("/{penaltyId}")
-    public Long deletePenaltyItem(Principal principal, @PathVariable(name = "penaltyId") Long penaltyId) {
+    public Long deletePenaltyItem(
+            Principal principal,
+            @PathVariable(name = "penaltyId")
+            Long penaltyId
+    ) {
         String userId = principal.getName();
         return penaltyService.deletePenaltyItem(userId, penaltyId);
     }
-
 }
