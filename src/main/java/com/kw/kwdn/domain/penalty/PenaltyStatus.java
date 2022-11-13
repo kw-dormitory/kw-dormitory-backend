@@ -60,4 +60,11 @@ public class PenaltyStatus {
                 .penaltyItemList(itemList)
                 .build();
     }
+
+    public static PenaltyStatus create(Member member) {
+        return PenaltyStatus.builder()
+                .totalPenalty(0)
+                .member(member)
+                .build();
+    }
 }
