@@ -39,6 +39,7 @@ public class PenaltyService {
                 .totalPenalty(0)
                 .member(member)
                 .build();
+
         return penaltyStatusRepository.save(status).getId();
     }
 
@@ -49,12 +50,8 @@ public class PenaltyService {
 
         status.addPenalty(dto.getPenalty());
 
-        PenaltyItem item = PenaltyItem.builder()
-                .penalty(dto.getPenalty())
-                .content(dto.getContent())
-                .createdAt(dto.getCreatedAt())
-                .penaltyStatus(status)
-                .build();
+        PenaltyItem item = dto.toEntity();
+        item.updatePenaltyStatus(status);
 
         return penaltyItemRepository.save(item).getId();
     }
@@ -71,6 +68,7 @@ public class PenaltyService {
         Member member = status.getMember();
         if (member == null || !member.getId().equals(userId))
             throw new IllegalArgumentException("해당 사용자의 정보를 찾을 수 없거나 다른 사용자의 정보를 삭제할 수 있는 권한이 없습니다.");
+
         status.subPenalty(item.getPenalty());
         penaltyItemRepository.delete(item);
         return penaltyId;

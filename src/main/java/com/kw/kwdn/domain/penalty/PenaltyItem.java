@@ -46,4 +46,9 @@ public class PenaltyItem {
                 .createdAt(createdAt)
                 .build();
     }
+
+    //** domain logic **//
+    public void updatePenaltyStatus(PenaltyStatus penaltyStatus){
+        this.penaltyStatus = penaltyStatus;
+    }
 }
