@@ -27,4 +27,9 @@ public class NoticeController {
     ) {
         return noticeService.getNoticeDetails(noticeId);
     }
+
+    @GetMapping("/all")
+    public List<NoticeListDTO> findAll(){
+        return noticeService.findAll();
+    }
 }
