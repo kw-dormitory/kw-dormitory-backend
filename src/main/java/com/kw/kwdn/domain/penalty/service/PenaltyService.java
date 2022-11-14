@@ -5,6 +5,7 @@ import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.penalty.PenaltyItem;
 import com.kw.kwdn.domain.penalty.PenaltyStatus;
 import com.kw.kwdn.domain.penalty.dto.PenaltyItemCreateDTO;
+import com.kw.kwdn.domain.penalty.dto.PenaltyItemDTO;
 import com.kw.kwdn.domain.penalty.dto.PenaltyStatusDTO;
 import com.kw.kwdn.domain.penalty.repository.PenaltyItemRepository;
 import com.kw.kwdn.domain.penalty.repository.PenaltyStatusRepository;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -68,5 +71,13 @@ public class PenaltyService {
         status.subPenalty(item.getPenalty());
         penaltyItemRepository.delete(item);
         return penaltyId;
+    }
+
+    public List<PenaltyItemDTO> findMyPenaltyItemList(String userId) {
+        return penaltyItemRepository
+                .findAllByUserId(userId)
+                .stream()
+                .map(PenaltyItem::toDTO)
+                .toList();
     }
 }
