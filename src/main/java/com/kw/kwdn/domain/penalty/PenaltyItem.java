@@ -1,6 +1,7 @@
 package com.kw.kwdn.domain.penalty;
 
 
+import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.penalty.dto.PenaltyItemDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +39,15 @@ public class PenaltyItem {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member creator;
+
+    //** domain logic **//
+    public void updatePenaltyStatus(PenaltyStatus penaltyStatus){
+        this.penaltyStatus = penaltyStatus;
+    }
+
     public PenaltyItemDTO toDTO() {
         return PenaltyItemDTO.builder()
                 .id(id)
@@ -45,10 +55,5 @@ public class PenaltyItem {
                 .penalty(penalty)
                 .createdAt(createdAt)
                 .build();
-    }
-
-    //** domain logic **//
-    public void updatePenaltyStatus(PenaltyStatus penaltyStatus){
-        this.penaltyStatus = penaltyStatus;
     }
 }

@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        springBootStarterVersion='2.7.4'
-        firebaseVersion='9.1.0'
-        swaggerVersion='3.0.0'
+        springBootStarterVersion = '2.7.4'
+        firebaseVersion = '9.1.0'
+        swaggerVersion = '3.0.0'
     }
 }
 
@@ -34,6 +34,7 @@ dependencies {
 
     // spring security
     implementation "org.springframework.boot:spring-boot-starter-security:${springBootStarterVersion}"
+    testImplementation "org.springframework.security:spring-security-test"
 
     // spring data jpa
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootStarterVersion}"

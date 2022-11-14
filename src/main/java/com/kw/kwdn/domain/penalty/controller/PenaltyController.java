@@ -1,28 +1,33 @@
 package com.kw.kwdn.domain.penalty.controller;
 
 import com.kw.kwdn.domain.penalty.dto.PenaltyItemCreateDTO;
+import com.kw.kwdn.domain.penalty.dto.PenaltyItemDTO;
 import com.kw.kwdn.domain.penalty.dto.PenaltyStatusDTO;
 import com.kw.kwdn.domain.penalty.service.PenaltyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/penalty")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/penalty")
 public class PenaltyController {
     private final PenaltyService penaltyService;
 
     @GetMapping("")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public PenaltyStatusDTO findMyPenaltyStatus(Principal principal) {
         String userId = principal.getName();
         return penaltyService.findMyPenaltyStatus(userId);
+    }
+
+    @GetMapping("/item")
+    public List<PenaltyItemDTO> findMyPenaltyItemList(Principal principal){
+        return penaltyService.findMyPenaltyItemList(principal.getName());
     }
 
     @PostMapping("")
