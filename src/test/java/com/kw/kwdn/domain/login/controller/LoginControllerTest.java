@@ -1,22 +1,13 @@
 package com.kw.kwdn.domain.login.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.security.dto.UserInfo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,26 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
-@WebAppConfiguration
-@ActiveProfiles("test")
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-public class LoginControllerTest {
-    @Spy
-    private ObjectMapper objectMapper;
-    private MockMvc mockMvc;
-
-    @Autowired
-    private LoginController loginController;
+public class LoginControllerTest extends IntegrationTest {
     @Autowired
     private MemberRepository memberRepository;
-
-    @BeforeEach
-    public void init() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(loginController)
-                .build();
-    }
 
     @Test
     @DisplayName("사용자가 로그인 요청을 했을 때, 만약 사용자의 정보가 이미 있다면 토큰만 생성하여 반환")

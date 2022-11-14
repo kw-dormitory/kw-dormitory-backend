@@ -16,4 +16,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NoticeListMiddleRawDTO {
     private List<NoticeListRawDTO> list;
+    private List<TotalCount> totalCount;
 }

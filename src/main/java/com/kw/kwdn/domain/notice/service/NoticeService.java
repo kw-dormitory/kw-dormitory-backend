@@ -31,6 +31,11 @@ public class NoticeService {
     private final ObjectMapper objectMapper;
 
     public List<NoticeListDTO> getNotice(Long page, Long size) {
+        NoticeListRootRawDTO dto = requestNoticeRaw(page, size);
+        return convertListRawDTOToListDTO(dto);
+    }
+
+    private NoticeListRootRawDTO requestNoticeRaw(Long page, Long size) {
         ResponseEntity<String> res = null;
         // raw data 가져오기
         try {
@@ -46,16 +51,13 @@ public class NoticeService {
                     .retrieve()
                     .onStatus(status -> status.value() != 200, r -> Mono.empty())
                     .toEntity(String.class)
-                    .doOnError((error) -> {
-                        log.warn("notice를 가지고 오는 작업에서 에러가 발생하였습니다.");
-                    })
                     .block();
         } catch (Exception e) {
             return null;
         }
 
-        NoticeListRootRawDTO dto = null;
         String body = Objects.requireNonNull(res).getBody();
+        NoticeListRootRawDTO dto = null;
 
         try {
             dto = objectMapper.readValue(body, NoticeListRootRawDTO.class);
@@ -63,16 +65,15 @@ public class NoticeService {
             log.warn(ErrorComment.JSON_PARSE_EXCEPTION.getComment());
             throw new IllegalStateException("NoticeService getNotice : 데이터를 가지고 오는 것에 실패하였습니다.");
         }
-        return convertListRawDTOToListDTO(dto);
+        return dto;
     }
 
     private List<NoticeListDTO> convertListRawDTOToListDTO(NoticeListRootRawDTO dto) {
-        List<NoticeListRawDTO> noticeListRawDTOS = Optional.of(dto)
+        List<NoticeListRawDTO> noticeListRawDTOS = Optional.ofNullable(dto)
                 .map(NoticeListRootRawDTO::getRoot)
                 .map(rootDto -> rootDto.get(0))
                 .map(NoticeListMiddleRawDTO::getList)
-                .orElseThrow(()
-                        -> new IllegalStateException("NoticeService convertListRawDTOToListDTO : 데이터를 가지고 오는 것에 실패하였습니다."));
+                .orElseThrow(() -> new IllegalStateException("NoticeService convertListRawDTOToListDTO : 데이터를 가지고 오는 것에 실패하였습니다."));
 
         return noticeListRawDTOS.stream()
                 .map(raw -> NoticeListDTO.builder()
@@ -131,5 +132,19 @@ public class NoticeService {
     public Long create(NoticeCreateDTO dto) {
         Notice notice = dto.toEntity();
         return noticeRepository.save(notice).getNoticeId();
+    }
+
+    public List<NoticeListDTO> findAll() {
+        Long size = getTotalSize();
+        return getNotice(1L, size);
+    }
+
+    public Long getTotalSize() {
+        return Optional.ofNullable(requestNoticeRaw(1L, 1L))
+                .map(NoticeListRootRawDTO::getRoot)
+                .map(dtos -> dtos.get(0))
+                .map(dto -> dto.getTotalCount().get(0))
+                .map(TotalCount::getCnt)
+                .orElseThrow(() -> new IllegalStateException("전체 사이즈의 공지사항을 가지고 올 수 없습니다."));
     }
 }

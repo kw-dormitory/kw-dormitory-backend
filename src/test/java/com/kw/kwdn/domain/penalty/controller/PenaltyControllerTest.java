@@ -1,6 +1,6 @@
 package com.kw.kwdn.domain.penalty.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.login.controller.LoginController;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
@@ -13,13 +13,7 @@ import com.kw.kwdn.domain.security.dto.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -32,13 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
-@AutoConfigureMockMvc
-public class PenaltyControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+public class PenaltyControllerTest extends IntegrationTest {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
@@ -47,11 +35,8 @@ public class PenaltyControllerTest {
     private PenaltyItemRepository penaltyItemRepository;
     @Autowired
     private LoginController loginController;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     private String jwtToken;
-
 
     @BeforeEach
     public void init() {
@@ -65,7 +50,6 @@ public class PenaltyControllerTest {
                 .photoUrl("photo")
                 .build();
         memberRepository.save(member);
-
 
         // 하나의 penalty status
         PenaltyStatus status = PenaltyStatus.builder()

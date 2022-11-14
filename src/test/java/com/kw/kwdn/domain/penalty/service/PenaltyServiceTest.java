@@ -28,10 +28,8 @@ public class PenaltyServiceTest {
     private PenaltyStatusRepository penaltyStatusRepository;
     @Mock
     private PenaltyItemRepository penaltyItemRepository;
-
     @InjectMocks
     private PenaltyService penaltyService;
-
 
     @Test
     @DisplayName("새로운 penalty item을 생성할 때 비지니스 로직이 정상적으로 동작하는지 확인하기 위한 로직")
