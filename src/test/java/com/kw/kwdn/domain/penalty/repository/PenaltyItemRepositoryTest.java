@@ -4,8 +4,6 @@ import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.penalty.PenaltyItem;
 import com.kw.kwdn.domain.penalty.PenaltyStatus;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
