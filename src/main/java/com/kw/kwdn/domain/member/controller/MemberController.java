@@ -28,7 +28,7 @@ public class MemberController {
         return memberService.uploadProfileImage(principal.getName(), files.get(0));
     }
 
-    @GetMapping("")
+    @GetMapping("/detail")
     public MemberDetailDTO detail(Principal principal) {
         String memberId = principal.getName();
         return memberService.findDetailById(memberId);
