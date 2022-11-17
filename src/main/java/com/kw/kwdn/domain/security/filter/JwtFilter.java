@@ -5,6 +5,7 @@ import com.kw.kwdn.domain.security.service.JwtSecurityService;
 import com.kw.kwdn.domain.security.token.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -32,8 +34,11 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
-        if (header == null || header.isEmpty() || header.isBlank())
-            throw new IllegalArgumentException("해당하는 토큰 값이 없습니다.");
+        if (header == null) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         String token = header.substring("Bearer ".length());
         log.info("jwt token : " + token);
 
@@ -44,10 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        Authentication authentication = new JwtAuthenticationToken(
-                subject,
-                subject,
-                List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        Authentication authentication = new JwtAuthenticationToken(subject, subject, List.of(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContextHolder
                 .getContext()
                 .setAuthentication(authentication);
