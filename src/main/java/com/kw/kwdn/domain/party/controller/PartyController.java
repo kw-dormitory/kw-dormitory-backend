@@ -9,9 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,7 +24,11 @@ public class PartyController {
     private final PartyService partyService;
 
     @PostMapping("/create")
-    public Long create(@RequestBody PartyCreateDTO dto, Principal principal) {
+    public Long create(
+            @Validated
+            @RequestBody
+            PartyCreateDTO dto,
+            Principal principal) {
         String userId = principal.getName();
         return partyService.create(dto, userId);
     }
@@ -32,11 +39,11 @@ public class PartyController {
     }
 
     @PostMapping("")
-    public Page<PartySimpleDTO> findAll(
+    public List<PartySimpleDTO> findAll(
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestBody PartySearch partySearch) {
 
-        return partyService.findAll(PageRequest.of(page, size), partySearch);
+        return partyService.findAll(PageRequest.of(page, size), partySearch).getContent();
     }
 }
