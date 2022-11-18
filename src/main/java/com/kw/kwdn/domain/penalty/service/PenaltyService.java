@@ -45,7 +45,7 @@ public class PenaltyService {
     @Transactional
     public Long createPenaltyItem(String userId, PenaltyItemCreateDTO dto) {
         PenaltyStatus status = penaltyStatusRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalStateException("해당하는 사용자가 없습니다."));
+                .orElseThrow(() -> new IllegalStateException("해당하는 사용자 penalty status가 없습니다."));
 
         status.addPenalty(dto.getPenalty());
 
