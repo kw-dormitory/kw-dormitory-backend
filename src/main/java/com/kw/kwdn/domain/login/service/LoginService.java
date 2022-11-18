@@ -3,6 +3,7 @@ package com.kw.kwdn.domain.login.service;
 
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
+import com.kw.kwdn.domain.penalty.service.PenaltyService;
 import com.kw.kwdn.domain.security.dto.UserInfo;
 import com.kw.kwdn.domain.security.service.JwtSecurityService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class LoginService {
     private final JwtSecurityService jwtSecurityService;
     private final MemberRepository memberRepository;
+    private final PenaltyService penaltyService;
 
     public String login(UserInfo userInfo) {
         Optional<Member> optMember = memberRepository.findOneById(userInfo.getUserId());
@@ -26,8 +28,12 @@ public class LoginService {
             Member newMember = userInfo
                     .toCreateDTO()
                     .toEntity();
-            memberRepository.save(newMember);
-        }else{
+            // member create
+            String savedId = memberRepository.save(newMember).getId();
+
+            // penalty status create
+            penaltyService.create(savedId);
+        } else {
             // 사용자 정보가 있으면 토큰 값은 변경하고 반환
             Member member = optMember.get();
             member.updateToken(userInfo.getToken());
