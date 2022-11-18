@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -17,6 +17,6 @@ public class PenaltyItemDTO {
     private Long id;
     private Integer penalty;
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createdAt;
 }

@@ -4,6 +4,7 @@ import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.security.dto.UserInfo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,19 @@ public class LoginControllerTest extends IntegrationTest {
     @Autowired
     private MemberRepository memberRepository;
 
+
+    @BeforeEach
+    public void init(){
+        memberRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("사용자가 로그인 요청을 했을 때, 만약 사용자의 정보가 이미 있다면 토큰만 생성하여 반환")
     public void test1() throws Exception {
+        String userId = "helloworld1";
+
         Member member = Member.builder()
-                .id("helloworld1")
+                .id(userId)
                 .token("token1")
                 .name("name1")
                 .email("email")
@@ -36,10 +45,10 @@ public class LoginControllerTest extends IntegrationTest {
         memberRepository.save(member);
 
         UserInfo userInfo = UserInfo.builder()
+                .userId(userId)
                 .name("name1")
                 .nickname("nickname1")
                 .token("token-1")
-                .userId("helloworld1")
                 .email("test@email.com")
                 .build();
 
