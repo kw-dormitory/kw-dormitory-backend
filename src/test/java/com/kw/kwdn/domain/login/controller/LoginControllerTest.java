@@ -2,7 +2,11 @@ package com.kw.kwdn.domain.login.controller;
 
 import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.member.Member;
+import com.kw.kwdn.domain.member.MemberSetting;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
+import com.kw.kwdn.domain.member.repository.MemberSettingRepository;
+import com.kw.kwdn.domain.penalty.PenaltyStatus;
+import com.kw.kwdn.domain.penalty.repository.PenaltyStatusRepository;
 import com.kw.kwdn.domain.security.dto.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginControllerTest extends IntegrationTest {
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private PenaltyStatusRepository penaltyStatusRepository;
+    @Autowired
+    private MemberSettingRepository memberSettingRepository;
 
     @BeforeEach
     public void init() {
@@ -85,15 +93,19 @@ public class LoginControllerTest extends IntegrationTest {
         Member member = memberRepository
                 .findOneById(userInfo.getUserId())
                 .orElseThrow(() -> new IllegalStateException("있어야할 사용자가 없습니다."));
+        PenaltyStatus penaltyStatus = penaltyStatusRepository.findByUserId(userInfo.getUserId()).get();
+        MemberSetting memberSetting = memberSettingRepository.findOneById(userInfo.getUserId()).get();
 
         // 실제로 값을 조회해서 정상적으로 동작하였는지 확인
         assertThat(member.getId()).isEqualTo(userInfo.getUserId());
         assertThat(member.getToken()).isEqualTo(userInfo.getToken());
+        assertThat(penaltyStatus).isNotNull();
+        assertThat(memberSetting).isNotNull();
     }
 
     @Test
     @DisplayName("UserInfo에 필요한 값들이 들어갔는지 validation을 검증")
-    public void test() throws Exception {
+    public void test3() throws Exception {
         List<UserInfo> userInfoList = List.of(
                 UserInfo.builder()
                         //.userId("helloworld1")

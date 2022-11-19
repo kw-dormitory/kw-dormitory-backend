@@ -1,6 +1,7 @@
 package com.kw.kwdn.domain.security.dto;
 
 import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
+import com.kw.kwdn.domain.member.dto.MemberUpdateDTO;
 import lombok.*;
 
 import javax.validation.constraints.Email;
@@ -21,6 +22,13 @@ public class UserInfo {
         return MemberCreateDTO.builder()
                 .id(this.userId)
                 .token(this.token)
+                .build();
+    }
+
+    public MemberUpdateDTO toUpdateDTO() {
+        return MemberUpdateDTO.builder()
+                .id(userId)
+                .token(token)
                 .build();
     }
 }
