@@ -3,6 +3,7 @@ package com.kw.kwdn.domain.member.controller;
 import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.login.controller.LoginController;
 import com.kw.kwdn.domain.member.dto.MemberDetailDTO;
+import com.kw.kwdn.domain.member.dto.MemberSettingDTO;
 import com.kw.kwdn.domain.security.dto.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,5 +62,24 @@ public class MemberControllerTest extends IntegrationTest {
                         .get("/api/v1/member/detail"))
                 .andExpect(status().isForbidden())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("사용자의 member setting 정보를 불러오는 로직 테스트")
+    public void test3() throws Exception {
+        //given, when
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/v1/member/setting")
+                        .header("Authorization", "Bearer " + jwt))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        MemberSettingDTO settingDTO = objectMapper.readValue(content, MemberSettingDTO.class);
+
+        // then
+        assertThat(settingDTO.getId()).isEqualTo(userInfo.getUserId());
+        assertThat(settingDTO.getNotice()).isEqualTo(false);
+        assertThat(settingDTO.getCurfew()).isEqualTo(false);
+        assertThat(settingDTO.getRegular()).isEqualTo(false);
     }
 }

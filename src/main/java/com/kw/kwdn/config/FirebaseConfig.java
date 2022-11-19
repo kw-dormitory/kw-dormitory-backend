@@ -21,7 +21,7 @@ public class FirebaseConfig {
     private String FIREBASE_APP_NAME;
 
     @Bean
-    public FirebaseApp initialize() throws IOException {
+    public FirebaseApp firebaseApp() throws IOException {
         FileInputStream serviceAccount = new FileInputStream(SECRET_FILE_PATH);
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

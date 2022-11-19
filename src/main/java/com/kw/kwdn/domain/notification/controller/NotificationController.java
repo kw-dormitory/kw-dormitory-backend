@@ -44,7 +44,6 @@ public class NotificationController {
         return userId;
     }
 
-
     @PostMapping("/regular/on")
     public String setRegularRecruitmentAlarmOn(Principal principal) {
         String userId = principal.getName();

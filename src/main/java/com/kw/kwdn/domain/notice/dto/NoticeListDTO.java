@@ -14,4 +14,13 @@ public class NoticeListDTO {
     private String title;
     private String writer;
     private String createdAt;
+
+    public NoticeCreateDTO toCreateDTO() {
+        return NoticeCreateDTO.builder()
+                .noticeId(this.getNoticeId())
+                .title(this.getTitle())
+                .writer(this.getWriter())
+                .createdAt(this.getCreatedAt())
+                .build();
+    }
 }
