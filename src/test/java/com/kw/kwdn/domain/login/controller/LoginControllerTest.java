@@ -23,9 +23,8 @@ public class LoginControllerTest extends IntegrationTest {
     @Autowired
     private MemberRepository memberRepository;
 
-
     @BeforeEach
-    public void init(){
+    public void init() {
         memberRepository.deleteAll();
     }
 
@@ -37,19 +36,13 @@ public class LoginControllerTest extends IntegrationTest {
         Member member = Member.builder()
                 .id(userId)
                 .token("token1")
-                .name("name1")
-                .email("email")
-                .nickname("nickname1")
                 .build();
 
         memberRepository.save(member);
 
         UserInfo userInfo = UserInfo.builder()
                 .userId(userId)
-                .name("name1")
-                .nickname("nickname1")
                 .token("token-1")
-                .email("test@email.com")
                 .build();
 
         String content = objectMapper.writeValueAsString(userInfo);
@@ -66,22 +59,15 @@ public class LoginControllerTest extends IntegrationTest {
 
         // token에 대해서 값이 변경이 되어도 수정이 되는지 확인
         assertThat(member.getId()).isEqualTo(userInfo.getUserId());
-        assertThat(member.getName()).isEqualTo(userInfo.getName());
-        assertThat(member.getNickname()).isEqualTo(userInfo.getNickname());
         assertThat(member.getToken()).isEqualTo(userInfo.getToken());
-        assertThat(member.getPhotoUrl()).isEqualTo(userInfo.getPhotoUrl());
     }
 
     @Test
     @DisplayName("사용자가 로그인 요청을 했을 때, 만약 사용자에 대한 정보가 없으면 사용자를 회원가입시키고 jwt 반환")
     public void test2() throws Exception {
         UserInfo userInfo = UserInfo.builder()
-                .name("name1")
-                .nickname("nickname1")
                 .token("token1")
                 .userId("helloworld1")
-                .email("test@email.com")
-                .photoUrl("photo1")
                 .build();
 
         String content = objectMapper.writeValueAsString(userInfo);
@@ -102,10 +88,7 @@ public class LoginControllerTest extends IntegrationTest {
 
         // 실제로 값을 조회해서 정상적으로 동작하였는지 확인
         assertThat(member.getId()).isEqualTo(userInfo.getUserId());
-        assertThat(member.getName()).isEqualTo(userInfo.getName());
-        assertThat(member.getNickname()).isEqualTo(userInfo.getNickname());
         assertThat(member.getToken()).isEqualTo(userInfo.getToken());
-        assertThat(member.getPhotoUrl()).isEqualTo(userInfo.getPhotoUrl());
     }
 
     @Test
@@ -115,35 +98,12 @@ public class LoginControllerTest extends IntegrationTest {
                 UserInfo.builder()
                         //.userId("helloworld1")
                         .token("token1")
-                        .email("test@email.com")
-                        .name("name1")
-                        .nickname("nickname1")
-                        .photoUrl("photo1")
                         .build(),
                 UserInfo.builder()
                         .userId("helloworld1")
                         //.token("token1")
-                        .email("test@email.com")
-                        .name("name1")
-                        .nickname("nickname1")
-                        .photoUrl("photo1")
-                        .build(),
-                UserInfo.builder()
-                        .userId("helloworld1")
-                        .token("token1")
-                        //.email("test@email.com")
-                        .name("name1")
-                        .nickname("nickname1")
-                        .photoUrl("photo1")
-                        .build(),
-                UserInfo.builder()
-                        .userId("helloworld1")
-                        .token("token1")
-                        .email("test@email.com")
-                        //.name("name1")
-                        .nickname("nickname1")
-                        .photoUrl("photo1")
                         .build());
+
 
         for (UserInfo userInfo : userInfoList) {
             String content = objectMapper.writeValueAsString(userInfo);

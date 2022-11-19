@@ -36,19 +36,12 @@ public class NoticeControllerTest extends IntegrationTest {
         // 한명의 사용자
         Member member = Member.builder()
                 .id("uuid1")
-                .name("name1")
-                .nickname("nickname1")
                 .token("token1")
-                .email("email@example.com")
-                .photoUrl("photo")
                 .build();
         memberRepository.save(member);
 
         UserInfo userInfo = UserInfo.builder()
                 .userId("uuid1")
-                .nickname("nickname1")
-                .email("email@email.com")
-                .name("name1")
                 .token("token1")
                 .build();
 

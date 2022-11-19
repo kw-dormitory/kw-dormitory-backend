@@ -24,28 +24,14 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private String id;
 
-    @Column(name = "token", nullable = false)
+    @Column(name = "fcm_token", nullable = false)
     private String token;
 
-    @Column(name = "nickname")
-    private String nickname;
 
-    @Column(name = "username")
-    private String name;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "photo_url")
-    private String photoUrl;
-
+    // convert logic
     public MemberDTO toDTO() {
         return MemberDTO.builder()
                 .id(id)
-                .photoUrl(photoUrl)
-                .email(email)
-                .nickname(nickname)
-                .name(name)
                 .token(token)
                 .build();
     }
@@ -53,19 +39,12 @@ public class Member extends BaseTimeEntity {
     public MemberDetailDTO toDetailDTO() {
         return MemberDetailDTO.builder()
                 .id(id)
-                .photoUrl(photoUrl)
-                .email(email)
-                .nickname(nickname)
-                .name(name)
                 .token(token)
                 .build();
     }
 
+    // domain logic
     public void updateToken(String token) {
         this.token = token;
-    }
-
-    public void updateProfileUrl(String path) {
-        this.photoUrl = path;
     }
 }

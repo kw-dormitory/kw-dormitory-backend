@@ -40,11 +40,8 @@ class PartyControllerTest extends IntegrationTest {
     @BeforeEach
     public void init() {
         userInfo = UserInfo.builder()
-                .name("name1")
-                .nickname("nickname1")
                 .token("token-1")
                 .userId("helloworld1")
-                .email("test@email.com")
                 .build();
         // jwt 토큰 발행
         jwt = loginController.login(userInfo);
@@ -168,9 +165,6 @@ class PartyControllerTest extends IntegrationTest {
         assertThat(dto.getContent()).isEqualTo(createDTO.getContent());
         assertThat(dto.getOpenTokUrl()).isEqualTo(createDTO.getOpenTokUrl());
         assertThat(dto.getCreatedAt()).isNotNull();
-
-        assertThat(dto.getCreator()).isNotNull();
-        assertThat(dto.getCreator().getNickname()).isEqualTo(userInfo.getNickname());
     }
 
     @Test

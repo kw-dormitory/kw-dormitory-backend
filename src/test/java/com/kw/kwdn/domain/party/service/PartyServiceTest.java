@@ -36,11 +36,7 @@ public class PartyServiceTest {
     private Member createMember(String memberId){
         return Member.builder()
                 .id(memberId)
-                .name("name1")
-                .email("test@email.com")
-                .nickname("nickname1")
                 .token("token1")
-                .photoUrl("url1")
                 .build();
     }
 
@@ -73,7 +69,6 @@ public class PartyServiceTest {
         assertThat(dto.getTitle()).isEqualTo(party.getTitle());
         assertThat(dto.getContent()).isEqualTo(party.getContent());
         assertThat(dto.getOpenTokUrl()).isEqualTo(party.getOpenTokUrl());
-        assertThat(dto.getCreator()).isNotNull();
 
         // verify
         verify(partyRepository, times(1)).findById(partyId);

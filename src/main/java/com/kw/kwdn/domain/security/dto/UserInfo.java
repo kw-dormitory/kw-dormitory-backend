@@ -14,24 +14,13 @@ import javax.validation.constraints.NotNull;
 public class UserInfo {
     @NotNull
     private String userId;
-    @Email
-    @NotNull
-    private String email;
-    @NotNull
-    private String name;
     @NotNull
     private String token;
-    private String nickname;
-    private String photoUrl;
 
     public MemberCreateDTO toCreateDTO() {
         return MemberCreateDTO.builder()
                 .id(this.userId)
                 .token(this.token)
-                .email(this.email)
-                .name(this.name)
-                .nickname(this.nickname)
-                .photoUrl(this.photoUrl)
                 .build();
     }
 }

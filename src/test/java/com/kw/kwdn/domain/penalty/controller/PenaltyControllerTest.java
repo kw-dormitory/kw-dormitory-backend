@@ -46,11 +46,7 @@ public class PenaltyControllerTest extends IntegrationTest {
         // login
         UserInfo userInfo = UserInfo.builder()
                 .userId(userId)
-                .name("name1")
-                .nickname("nickname1")
                 .token("token1")
-                .email("test@email.com")
-                .photoUrl("photo1")
                 .build();
 
         jwtToken = loginController.login(userInfo);

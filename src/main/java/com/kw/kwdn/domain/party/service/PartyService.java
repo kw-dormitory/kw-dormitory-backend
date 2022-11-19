@@ -1,7 +1,6 @@
 package com.kw.kwdn.domain.party.service;
 
 import com.kw.kwdn.domain.member.Member;
-import com.kw.kwdn.domain.member.dto.MemberPartyDTO;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.party.Party;
 import com.kw.kwdn.domain.party.dto.PartyCreateDTO;
@@ -48,17 +47,11 @@ public class PartyService {
 
         Member creator = party.getCreator();
 
-        MemberPartyDTO memberDto = MemberPartyDTO.builder()
-                .nickname(creator.getNickname())
-                .photoUrl(creator.getPhotoUrl())
-                .build();
-
         PartyDetailDTO dto = PartyDetailDTO
                 .builder()
                 .title(party.getTitle())
                 .content(party.getContent())
                 .openTokUrl(party.getOpenTokUrl())
-                .creator(memberDto)
                 .createdAt(party.getCreatedAt())
                 .build();
         return dto;
@@ -67,14 +60,10 @@ public class PartyService {
     public Page<PartySimpleDTO> findAll(Pageable pageable, PartySearch partySearch) {
         return partyRepository
                 .findAll(pageable, partySearch)
-                .map(party -> {
-                    Member creator = party.getCreator();
-                    return PartySimpleDTO.builder()
-                            .partyId(party.getId())
-                            .creatorName(creator.getName())
-                            .createdAt(party.getCreatedAt())
-                            .title(party.getTitle())
-                            .build();
-                });
+                .map(party -> PartySimpleDTO.builder()
+                        .id(party.getId())
+                        .createdAt(party.getCreatedAt())
+                        .title(party.getTitle())
+                        .build());
     }
 }

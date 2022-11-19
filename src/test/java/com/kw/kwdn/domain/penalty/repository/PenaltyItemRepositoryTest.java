@@ -36,11 +36,7 @@ class PenaltyItemRepositoryTest {
         // member, penalty status, penalty item의 정보를 모두 초기 세팅한다.
         Member member = Member.builder()
                 .id("uuid1")
-                .name("name1")
-                .nickname("nickname1")
                 .token("token1")
-                .email("email@example.com")
-                .photoUrl("photo")
                 .build();
         memberRepository.save(member);
 

@@ -28,11 +28,8 @@ public class MemberControllerTest extends IntegrationTest {
     @BeforeEach
     public void init() {
         userInfo = UserInfo.builder()
-                .name("name1")
-                .nickname("nickname1")
                 .token("token-1")
                 .userId("helloworld1")
-                .email("test@email.com")
                 .build();
         // jwt 토큰 발행
         jwt = loginController.login(userInfo);
@@ -55,10 +52,6 @@ public class MemberControllerTest extends IntegrationTest {
 
         assertThat(dto.getId()).isEqualTo(userInfo.getUserId());
         assertThat(dto.getToken()).isEqualTo(userInfo.getToken());
-        assertThat(dto.getName()).isEqualTo(userInfo.getName());
-        assertThat(dto.getNickname()).isEqualTo(userInfo.getNickname());
-        assertThat(dto.getPhotoUrl()).isEqualTo(userInfo.getPhotoUrl());
-        assertThat(dto.getEmail()).isEqualTo(userInfo.getEmail());
     }
 
     @Test

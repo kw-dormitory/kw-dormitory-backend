@@ -14,9 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PartySimpleDTO {
-    private Long partyId;
+    private Long id;
     private String title;
-    private String creatorName;
+    private String content;
+    private String openTokUrl;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 }

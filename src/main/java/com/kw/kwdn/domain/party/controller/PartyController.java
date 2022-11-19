@@ -41,7 +41,6 @@ public class PartyController {
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestBody PartySearch partySearch) {
-
         return partyService.findAll(PageRequest.of(page, size), partySearch).getContent();
     }
 }

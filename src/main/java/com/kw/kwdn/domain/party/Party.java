@@ -2,6 +2,7 @@ package com.kw.kwdn.domain.party;
 
 import com.kw.kwdn.domain.BaseTimeEntity;
 import com.kw.kwdn.domain.member.Member;
+import com.kw.kwdn.domain.party.dto.PartySimpleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,4 +34,14 @@ public class Party extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member creator;
+
+    public PartySimpleDTO toSimpleDTO(){
+        return PartySimpleDTO.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .openTokUrl(openTokUrl)
+                .createdAt(createdAt)
+                .build();
+    }
 }
