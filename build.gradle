@@ -10,6 +10,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'com.kw'
@@ -72,6 +73,19 @@ dependencies {
     // swagger
     implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "com/kw/kwdn/**/dto/**",
+                    "**/Q*.class"
+            ])
+        }))
+    }
 }
 
 // clean task 실행시 QClass 삭제
