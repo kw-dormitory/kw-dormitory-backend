@@ -1,6 +1,5 @@
 package com.kw.kwdn.domain.notice.controller;
 
-import com.kw.kwdn.domain.notice.dto.NoticeDetailsDTO;
 import com.kw.kwdn.domain.notice.dto.NoticeListDTO;
 import com.kw.kwdn.domain.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;

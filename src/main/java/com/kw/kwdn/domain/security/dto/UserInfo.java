@@ -4,7 +4,6 @@ import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
 import com.kw.kwdn.domain.member.dto.MemberUpdateDTO;
 import lombok.*;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Data

@@ -1,11 +1,9 @@
 package com.kw.kwdn.domain.login.service;
 
 
-import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.dto.MemberCreateDTO;
 import com.kw.kwdn.domain.member.dto.MemberDTO;
 import com.kw.kwdn.domain.member.dto.MemberUpdateDTO;
-import com.kw.kwdn.domain.member.repository.MemberRepository;
 import com.kw.kwdn.domain.member.service.MemberService;
 import com.kw.kwdn.domain.penalty.service.PenaltyService;
 import com.kw.kwdn.domain.security.dto.UserInfo;
