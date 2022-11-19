@@ -100,9 +100,9 @@ public class NoticeControllerTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("가장 최신의 공지를 받아오고 그 공지의 id를 이용해서 공지 detail을 불러오는 api 검사")
+    @DisplayName("가장 최신의 공지를  10개 받아오기")
     public void test4() throws Exception {
-        // given
+        // given, when
         // 가장 최근 공지사항 10개를 불러오는 로직
         MvcResult noticeListResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/notice")
                         .header("Authorization", "Bearer " + jwtToken))
@@ -111,26 +111,9 @@ public class NoticeControllerTest extends IntegrationTest {
 
         String body = noticeListResult.getResponse().getContentAsString();
         List<NoticeListDTO> list = List.of(objectMapper.readValue(body, NoticeListDTO[].class));
-        String noticeId = String.valueOf(list.get(0).getNoticeId());
-
-
-        // when
-        MvcResult noticeDetailResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/notice/" + noticeId)
-                        .header("Authorization", "Bearer " + jwtToken))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String noticeDetailString = noticeDetailResult.getResponse().getContentAsString();
-        NoticeDetailsDTO detailsDTO = objectMapper.readValue(noticeDetailString, NoticeDetailsDTO.class);
 
         // then
         Integer noticeSize = list.size();
         assertThat(noticeSize).isEqualTo(10);
-
-        assertThat(detailsDTO.getNoticeId()).isNotNull();
-        assertThat(detailsDTO.getContent()).isNotNull();
-        assertThat(detailsDTO.getTitle()).isNotNull();
-        assertThat(detailsDTO.getWriter()).isNotNull();
-        assertThat(detailsDTO.getCreatedAt()).isNotNull();
     }
 }
