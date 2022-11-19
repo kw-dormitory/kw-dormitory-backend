@@ -21,13 +21,6 @@ public class NoticeController {
         return noticeService.getNotice(page, size);
     }
 
-    @PostMapping("/{noticeId}")
-    public NoticeDetailsDTO getNoticeDetails(
-            @PathVariable(name = "noticeId") String noticeId
-    ) {
-        return noticeService.getNoticeDetails(noticeId);
-    }
-
     @GetMapping("/all")
     public List<NoticeListDTO> findAll(){
         return noticeService.findAll();

@@ -85,44 +85,6 @@ public class NoticeService {
                 .collect(Collectors.toList());
     }
 
-    public NoticeDetailsDTO getNoticeDetails(String noticeId) {
-        ResponseEntity<String> res = webClient.post()
-                .uri("/bbs/getBbsView.kmc")
-                .accept(MediaType.APPLICATION_FORM_URLENCODED)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters
-                        .fromMultipartData("seq", noticeId)
-                        .with("bbs_locgbn", "KW")
-                        .with("bbs_id", "notice"))
-                .retrieve()
-                .onStatus(status -> status.value() != 200, r -> Mono.empty())
-                .toEntity(String.class)
-                .block();
-        String body = Objects.requireNonNull(res).getBody();
-        NoticeRawDetailRootDTO rootDto = null;
-        try {
-            rootDto = objectMapper.readValue(body, NoticeRawDetailRootDTO.class);
-        } catch (JsonProcessingException e) {
-            log.warn(ErrorComment.JSON_PARSE_EXCEPTION.getComment());
-            throw new IllegalStateException("NoticeService getNoticeDetails : 데이터를 가지고 오는 것에 실패하였습니다.");
-        }
-
-        if (rootDto.getRoot().isEmpty())
-            throw new IllegalStateException("NoticeService getNoticeDetails : 데이터를 가지고 오는 것에 실패하였습니다.");
-        NoticeRawDetailsDTO dto = rootDto.getRoot().get(0);
-
-        return NoticeDetailsDTO.builder()
-                .noticeId(dto.getSeq())
-                .content(dto.getContents())
-                .title(dto.getSubject())
-                .writer(dto.getRegname())
-                .createdAt(
-                        dto.getRegdate()
-                                .replace("오전 ", "A.M. ")
-                                .replace("오후 ", "P.M. "))
-                .build();
-    }
-
     @Transactional(readOnly = true)
     public boolean existById(Long noticeId) {
         return noticeRepository.existsById(noticeId);
