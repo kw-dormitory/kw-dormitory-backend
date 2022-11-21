@@ -58,7 +58,7 @@ public class PenaltyControllerTest extends IntegrationTest {
         PenaltyItemCreateDTO createDTO = PenaltyItemCreateDTO.builder()
                 .content("벌점사유")
                 .penalty(penalty)
-                .createdAt(localDate)
+                .date(localDate)
                 .build();
 
         String content = objectMapper.writeValueAsString(createDTO);

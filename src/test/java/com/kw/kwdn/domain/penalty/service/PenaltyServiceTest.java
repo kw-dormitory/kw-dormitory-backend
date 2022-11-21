@@ -40,7 +40,7 @@ public class PenaltyServiceTest {
         PenaltyItemCreateDTO dto = PenaltyItemCreateDTO.builder()
                 .content("penalty content1")
                 .penalty(10)
-                .createdAt(LocalDate.now())
+                .date(LocalDate.now())
                 .build();
 
         PenaltyItem penaltyItem = PenaltyItem.builder().id(23723478L).build();
