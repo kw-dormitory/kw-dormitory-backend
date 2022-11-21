@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KwdnApplication {
+public class KWDormitoryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KwdnApplication.class, args);
+        SpringApplication.run(KWDormitoryApplication.class, args);
     }
 
 }
