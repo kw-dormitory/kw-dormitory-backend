@@ -25,19 +25,19 @@ public class LoginService {
     public String login(UserInfo userInfo) {
         String userId = userInfo.getUserId();
         Optional<MemberDTO> optionalMemberDTO = memberService.findOneById(userId);
-        optionalMemberDTO.ifPresentOrElse(
-                // 존재한다면
-                dto -> {
-                    MemberUpdateDTO updateDTO = userInfo.toUpdateDTO();
-                    memberService.update(userId, updateDTO);
-                },
-                // 존재하지 않는다면
-                () -> {
-                    MemberCreateDTO createDTO = userInfo.toCreateDTO();
-                    memberService.join(createDTO);
-                });
+        optionalMemberDTO
+                .ifPresentOrElse(
+                        // 존재한다면
+                        dto -> {
+                            MemberUpdateDTO updateDTO = userInfo.toUpdateDTO();
+                            memberService.update(userId, updateDTO);
+                        },
+                        // 존재하지 않는다면
+                        () -> {
+                            MemberCreateDTO createDTO = userInfo.toCreateDTO();
+                            memberService.join(createDTO);
+                        });
 
-
-        return jwtSecurityService.createToken(userInfo.getUserId(), 1000 * 60 * 60);
+        return jwtSecurityService.createToken(userInfo.getUserId(), 1000 * 60 * 60 * 24 * 12);
     }
 }
