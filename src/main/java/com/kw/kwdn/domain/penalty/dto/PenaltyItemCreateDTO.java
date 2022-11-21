@@ -25,13 +25,13 @@ public class PenaltyItemCreateDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private LocalDate createdAt;
+    private LocalDate date;
 
     public PenaltyItem toEntity() {
         return PenaltyItem.builder()
                 .penalty(this.penalty)
                 .content(this.content)
-                .createdAt(createdAt)
+                .date(date)
                 .build();
     }
 }

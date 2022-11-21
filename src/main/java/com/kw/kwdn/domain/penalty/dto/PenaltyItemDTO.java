@@ -18,5 +18,5 @@ public class PenaltyItemDTO {
     private Integer penalty;
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
+    private LocalDate date;
 }
