@@ -34,11 +34,8 @@ public class PenaltyItem {
     @JoinColumn(name = "penalty_status_id")
     private PenaltyStatus penaltyStatus;
 
-    @Column(name = "created_at")
-    private LocalDate createdAt;
-
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
+    @Column(name = "created_date")
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -54,7 +51,7 @@ public class PenaltyItem {
                 .id(id)
                 .content(content)
                 .penalty(penalty)
-                .createdAt(createdAt)
+                .date(date)
                 .build();
     }
 }

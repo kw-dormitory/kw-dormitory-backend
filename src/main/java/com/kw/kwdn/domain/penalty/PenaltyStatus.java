@@ -52,7 +52,7 @@ public class PenaltyStatus {
     public PenaltyStatusDTO toDTO() {
         List<PenaltyItemDTO> itemList = penaltyItemList.stream()
                 .map(PenaltyItem::toDTO)
-                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
                 .toList();
 
         return PenaltyStatusDTO.builder()
