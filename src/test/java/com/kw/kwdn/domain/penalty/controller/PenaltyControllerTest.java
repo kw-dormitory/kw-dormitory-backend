@@ -2,28 +2,21 @@ package com.kw.kwdn.domain.penalty.controller;
 
 import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.login.controller.LoginController;
-import com.kw.kwdn.domain.member.repository.MemberRepository;
-import com.kw.kwdn.domain.penalty.PenaltyStatus;
 import com.kw.kwdn.domain.penalty.dto.PenaltyItemCreateDTO;
 import com.kw.kwdn.domain.penalty.dto.PenaltyStatusDTO;
 import com.kw.kwdn.domain.penalty.repository.PenaltyItemRepository;
-import com.kw.kwdn.domain.penalty.repository.PenaltyStatusRepository;
 import com.kw.kwdn.domain.security.dto.UserInfo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

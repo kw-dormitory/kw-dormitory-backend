@@ -4,7 +4,6 @@ import com.kw.kwdn.domain.IntegrationTest;
 import com.kw.kwdn.domain.login.controller.LoginController;
 import com.kw.kwdn.domain.member.Member;
 import com.kw.kwdn.domain.member.repository.MemberRepository;
-import com.kw.kwdn.domain.notice.dto.NoticeDetailsDTO;
 import com.kw.kwdn.domain.notice.dto.NoticeListDTO;
 import com.kw.kwdn.domain.notice.service.NoticeService;
 import com.kw.kwdn.domain.security.dto.UserInfo;
