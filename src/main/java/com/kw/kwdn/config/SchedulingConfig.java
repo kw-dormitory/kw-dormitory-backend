@@ -38,8 +38,8 @@ public class SchedulingConfig {
     public void notice() {
         List<NoticeListDTO> noticeList = noticeService.getNotice(1L, 10L);
         if (noticeList == null) {
-            log.warn("notice tasklet을 다시 시작해야합니다.");
-            throw new IllegalStateException("notice 값을 가지고 올 수 없습니다.");
+            log.warn("기숙사 홈페이지로부터 정보를 가지고 올 수 없습니다.");
+            return;
         }
 
         List<NoticeListDTO> notExistNoticeList = noticeList.stream()
