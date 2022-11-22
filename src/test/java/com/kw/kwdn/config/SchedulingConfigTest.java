@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -52,7 +53,7 @@ public class SchedulingConfigTest {
         schedulingConfig.notice();
 
         // then
-        verify(firebaseService, times(0)).sendAlarm(commonTitle, any(), any());
+        verify(firebaseService, times(0)).sendAlarm(eq(commonTitle), any(), any());
         verify(noticeService, times(10)).existById(any());
     }
 
