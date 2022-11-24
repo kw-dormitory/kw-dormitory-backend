@@ -1,0 +1,44 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+#        format_sql: true
+      database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  # in-memory database test setting
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:mem:test
+
+  # swagger option
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+
+  # image transfer limit option
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+
+fcm:
+  secret: firebase-kw-dormitory.json
+  app-name: firebase-app-name
+
+jwt:
+  secret: KW-DORMITORY-JWT-SECRET
+
+server:
+  port: 8888
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

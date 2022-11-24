@@ -38,7 +38,6 @@ out/
 kw-dormitory-notice-firebase-adminsdk-j5302-247cf7d866.json
 firebase-kw-dormitory.json
 src/main/resources/application-dev.yml
-src/main/resources/application-test.yml
 src/main/resources/image/**
 
 logs/**
