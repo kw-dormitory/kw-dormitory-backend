@@ -26,6 +26,24 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: create firebase-kw-dormitory.json
+      id: create firebase-kw-dormitory.json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "firebase-kw-dormitory.json"
+        json: ${{ secrets.FIREBASE_SECRET_KEY }}
+
+    - name: create application-dev.yml
+      id: create application-dev.yml
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "application-dev.yml"
+        json: ${{ secrets.APPILCATION_YML_DEV }}
+
+    - name: test
+      run: cat firebase-kw-dormitory.json
+
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
