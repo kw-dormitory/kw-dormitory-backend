@@ -48,3 +48,6 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
+
+    - name: send jar file to ec2 server
+      run: scp -r -i ${{ secrets.SSH_KEY }} build/libs/kw-dormitory-backend-0.0.1-SNAPSHOT.jar  ${{ secrets.SSH_SERVER }}
