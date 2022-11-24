@@ -42,7 +42,7 @@ jobs:
       with:
         arguments: build
 
-    - name: Send jar file SCP
+    - name: Send Jar File SCP
       uses: appleboy/scp-action@master
       with:
         username: ubuntu
