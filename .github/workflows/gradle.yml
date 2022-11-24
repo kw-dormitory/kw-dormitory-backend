@@ -32,7 +32,7 @@ jobs:
       uses: jsdaniell/create-json@1.1.2
       with:
         name: "application-dev.yml"
-        json: ${{ secrets.APPILCATION_YML_DEV }}
+        json: ${{ secrets.APPLICATION_YML_DEV }}
 
     - name: move application-dev.yml
       run: mv application-dev.yml src/main/resources/application-dev.yml
