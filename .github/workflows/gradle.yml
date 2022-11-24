@@ -20,6 +20,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    # firebase key
     - name: create firebase-kw-dormitory.json
       id: create-firebase-json
       uses: jsdaniell/create-json@1.1.2
@@ -27,6 +28,7 @@ jobs:
         name: "firebase-kw-dormitory.json"
         json: ${{ secrets.FIREBASE_SECRET_KEY }}
 
+    # application dev yaml file
     - name: create application-dev.yml
       id: create-yml
       uses: jsdaniell/create-json@1.1.2
@@ -42,6 +44,7 @@ jobs:
       with:
         arguments: build
 
+    # move jar file to ec2
     - name: Send Jar File SCP
       uses: appleboy/scp-action@master
       with:
