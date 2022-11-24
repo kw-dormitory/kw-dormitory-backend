@@ -28,14 +28,14 @@ jobs:
         distribution: 'temurin'
 
     - name: create firebase-kw-dormitory.json
-      id: create-firebase-kw-dormitory.json
+      id: create-firebase-json
       uses: jsdaniell/create-json@1.1.2
       with:
         name: "firebase-kw-dormitory.json"
         json: ${{ secrets.FIREBASE_SECRET_KEY }}
 
     - name: create application-dev.yml
-      id: create-application-dev.yml
+      id: create-yml
       uses: jsdaniell/create-json@1.1.2
       with:
         name: "application-dev.yml"
