@@ -44,13 +44,12 @@ jobs:
       with:
         arguments: build
 
-  deploy:
     # move jar file to ec2
     - name: Remove jar and firebase secret file and kill server process
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_HOST }}
-        username: ubuntu
+        username: "ubuntu"
         key: ${{ secrets.SSH_KEY }}
         port: 22
         script: |
