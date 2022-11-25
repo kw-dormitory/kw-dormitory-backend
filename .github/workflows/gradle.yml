@@ -86,4 +86,4 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22
         script: |
-          java -jar kw-dormitory-backend-0.0.1-SNAPSHOT.jar
+          nohub java -jar kw-dormitory-backend-0.0.1-SNAPSHOT.jar &
