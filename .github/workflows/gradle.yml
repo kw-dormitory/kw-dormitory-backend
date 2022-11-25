@@ -44,6 +44,8 @@ jobs:
       with:
         arguments: build
 
+  deploy:
+    - needs: [ build ]
     # move jar file to ec2
     - name: Remove jar and firebase secret file and kill server process
       uses: appleboy/ssh-action@master
