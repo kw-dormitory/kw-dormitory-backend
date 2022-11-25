@@ -54,7 +54,7 @@ jobs:
         port: 22
         script: |
           sudo su
-          kill -9 `ps -ef | grep 'java -jar' | head -1 | awk "{ print $2 }"`
+          kill -9 $(pgrep -fl kw-dor | grep java | awk '{print $1}')
           rm -rf *
 
     - name: Send Firebase Secret Key File SCP
