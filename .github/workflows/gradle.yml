@@ -53,6 +53,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22
         script: |
+          sudo su
           kill -9 `ps -ef | grep 'java -jar' | head -1 | awk '{print $2}'`
           rm -rf *
 
