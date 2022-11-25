@@ -44,7 +44,31 @@ jobs:
       with:
         arguments: build
 
+  deploy:
+    - needs: [ build ]
+
     # move jar file to ec2
+    - name: Remove jar, firebase secret file and kill server process
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
+        script: |
+          kill -9 `ps -ef | grep 'java -jar' | awk '{print $2}'`
+          rm -rf *
+
+    - name: Send Firebase Secret Key File SCP
+      uses: appleboy/scp-action@master
+      with:
+        username: ubuntu
+        host: ${{ secrets.SERVER_HOST }}
+        key: ${{ secrets.SSH_KEY }}
+        source: "firebase-kw-dormitory.json"
+        target: "/home/ubuntu"
+        strip_components: 2
+
     - name: Send Jar File SCP
       uses: appleboy/scp-action@master
       with:
@@ -54,3 +78,14 @@ jobs:
         source: "./build/libs/*.jar"
         target: "/home/ubuntu"
         strip_components: 2
+
+    # move jar file to ec2
+    - name: Remove jar, firebase secret file and kill server process
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
+        script: |
+          java -jar kw-dormitory-backend-0.0.1-SNAPSHOT.jar
