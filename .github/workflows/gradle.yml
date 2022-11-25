@@ -1,34 +1,93 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "feature/action" ]
+    branches: [ "release" ]
   pull_request:
-    branches: [ "feature/action" ]
+    branches: [ "release" ]
 
 permissions:
   contents: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: build
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # firebase key
+      - name: create firebase-kw-dormitory.json
+        id: create-firebase-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase-kw-dormitory.json"
+          json: ${{ secrets.FIREBASE_SECRET_KEY }}
+
+      # application dev yaml file
+      - name: create application-dev.yml
+        id: create-yml
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "application-dev.yml"
+          json: ${{ secrets.APPLICATION_YML_DEV }}
+
+      - name: move application-dev.yml
+        run: mv application-dev.yml src/main/resources/application-dev.yml
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
+
+        # move jar file to ec2
+      - name: Remove jar and firebase secret file and kill server process
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: "ubuntu"
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            sudo su
+            nohup kill -9 `ps -ef | grep 'java -jar' | head -1 | awk '{ print $2 }'` &
+            nohup rm -rf * &
+
+      - name: Send Firebase Secret Key File SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: "ubuntu"
+          host: ${{ secrets.SERVER_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "firebase-kw-dormitory.json"
+          target: "/home/ubuntu"
+          strip_components: 2
+
+      - name: Send Jar File SCP
+        uses: appleboy/scp-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.SERVER_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "./build/libs/*.jar"
+          target: "/home/ubuntu"
+          strip_components: 2
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      # move jar file to ec2
+      - name: Remove jar, firebase secret file and kill server process
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            nohup java -jar kw-dormitory-backend-0.0.1-SNAPSHOT.jar &
