@@ -2,9 +2,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "feature/action" ]
+    branches: [ "release" ]
   pull_request:
-    branches: [ "feature/action" ]
+    branches: [ "release" ]
 
 permissions:
   contents: read
@@ -90,4 +90,4 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22
         script: |
-          nohub java -jar kw-dormitory-backend-0.0.1-SNAPSHOT.jar &
+          nohup java -jar kw-dormitory-backend-0.0.1-SNAPSHOT.jar &
