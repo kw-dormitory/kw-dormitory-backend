@@ -9,7 +9,10 @@
 
 
 ### Architecture
-![kw-dormitory drawio](https://user-images.githubusercontent.com/73744183/204135987-e7bb9cbf-70ae-4a32-900a-515431ab507c.svg)
+> ![kw-dormitory drawio](https://user-images.githubusercontent.com/73744183/204135987-e7bb9cbf-70ae-4a32-900a-515431ab507c.svg)
+
+### ERD
+> ![kw-dormitory](https://user-images.githubusercontent.com/73744183/204137768-8d573818-772d-4801-a3b3-a37c11d508e7.PNG)
 
 ### Technical Stack
 
@@ -28,4 +31,4 @@
 >  - Mockito
 
 ### Backend Member
-- [Jo Hyun Jun](https://github.com/Tianea2160)
+> - [Jo Hyun Jun](https://github.com/Tianea2160)
