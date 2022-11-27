@@ -7,6 +7,10 @@
 > - monitoring notice that contain new content and notification
 > - anonymous party CRUD API
 
+
+### Architecture
+![kw-dormitory drawio](https://user-images.githubusercontent.com/73744183/204135987-e7bb9cbf-70ae-4a32-900a-515431ab507c.svg)
+
 ### Technical Stack
 
 > #### Back-End(JAVA)
