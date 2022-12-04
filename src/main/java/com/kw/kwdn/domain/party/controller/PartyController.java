@@ -43,4 +43,9 @@ public class PartyController {
             @RequestBody PartySearch partySearch) {
         return partyService.findAll(PageRequest.of(page, size), partySearch).getContent();
     }
+
+    @GetMapping("")
+    public List<PartySimpleDTO> findAll(){
+        return partyService.findAll();
+    }
 }
